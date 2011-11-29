@@ -8,7 +8,7 @@
 //
 //Author = Gareth Ayres of Swansea University
 //EMail = g.j.ayres@swansea.ac.uk
-//Version 0.2
+//Version 0.3
 //
 //Copyright 2011 Gareth Ayres
 //
@@ -74,14 +74,17 @@ $hostName = "radacc.myinstitute.ac.uk";
 $usernamedb = "radiususer";
 $password = "password";
 //make sure the radius user is allowed to access the radius table from the host running this script.
+//NASIP is teh range to match wireless NAS IP Addresses
 $NASIP = "10.10.246.";
-$EduroamRange = "137.44.178";
+//Eduroam range is the range of IP addresses to match which are assigned to eduroam visitors at institution
+$EduroamRange = "123.210.123.";
 
 if (!($db= mysql_connect($hostName,$usernamedb,$password))) { echo "error connecting to DB on $hostName.";  exit();}
 if (!(mysql_select_db("radius",$db))) { echo "error connecting to DB-radius."; exit(); }
 
 $lastMonth = date("Y-m",mktime(0,0,0,date("m")-1,date("y")));
 
+//Edit this query to change the data set to get
 $query = "SELECT DISTINCT (username), FramedIPAddress, NASIPAddress FROM radacct WHERE  AcctStartTime LIKE '2010-%'";
 $result=mysql_query($query,$db);
 $numunique=mysql_num_rows($result);
